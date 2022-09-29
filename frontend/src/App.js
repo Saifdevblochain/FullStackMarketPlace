@@ -6,12 +6,11 @@ import Mint from './pages/createnft';
 import MyAssets from './pages/my-nfts'
 import Home from './pages/index'
 import ResellNFT from './pages/resell-nft'
-import { ethers } from 'ethers';
+ 
   
 function App() {
    
-  console.log(x.toString())
-  return (
+   return (
     <div className="App">
 
       <TypesExample />
