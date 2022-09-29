@@ -6,8 +6,11 @@ import Mint from './pages/createnft';
 import MyAssets from './pages/my-nfts'
 import Home from './pages/index'
 import ResellNFT from './pages/resell-nft'
+import { ethers } from 'ethers';
   
 function App() {
+   
+  console.log(x.toString())
   return (
     <div className="App">
 
@@ -20,7 +23,7 @@ function App() {
       <Route path="/createnft" element={<Mint />} > </Route>
       <Route path="/dashboard" element={<CreatorDashboard />} > </Route>
       <Route path="/my-nfts" element={<MyAssets />} > </Route>
-      {/* <Route path="/resell-nft" element={<ResellNFT />} > </Route> */}
+      <Route path="/resell-nft" element={<ResellNFT />} > </Route>
 
       </Routes>
       

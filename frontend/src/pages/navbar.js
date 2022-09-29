@@ -15,8 +15,8 @@ function ColorSchemesExample() {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/createnft">Create NFT</Nav.Link>
             <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-            <Nav.Link as={Link} to="/my-nfts">Mt Nfts</Nav.Link>
-            {/* <Nav.Link as={Link} to="/resell-nft">Re-sell Nft </Nav.Link> */}
+            <Nav.Link as={Link} to="/my-nfts">My Nfts</Nav.Link>
+            <Nav.Link as={Link} to="/resell-nft">ReSell Nft </Nav.Link>
             {/* <Nav.Link as={Link} to="">{<h1>Signer</h1>} </Nav.Link> */}
           </Nav>
         </Container>
