@@ -1,61 +1,78 @@
-import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import Web3Modal from 'web3modal'
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
+import Web3Modal from "web3modal";
+import Button from "react-bootstrap/esm/Button";
+import { DEPLOYED_CONTRACT_ADDRESS as DeployedAddress, abi } from "./constant";
 
-import {DEPLOYED_CONTRACT_ADDRESS as DeployedAddress,abi} from "./constant"
 export default function ResellNFT() {
-  const [formInput, updateFormInput] = useState({ price: '', image: '' })
-  const router = useNavigate()
-  const { id, tokenURI } = router.query
-  const { image, price } = formInput
+  const [formInput, updateFormInput] = useState({ price: "", image: "" });
+  const router = useSearchParams();
+  console.log(router);
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  const id = params.id;
+  const tokenURI = params.tokenURI;
+//   const { id, tokenURI } = router;
+  console.log({ id });
+  console.log({ tokenURI });
+  const { image, price } = formInput;
 
   useEffect(() => {
-    fetchNFT()
-  }, [id])
+    fetchNFT();
+  }, [id]);
 
   async function fetchNFT() {
-    if (!tokenURI) return
-    const meta = await axios.get(tokenURI)
-    updateFormInput(state => ({ ...state, image: meta.data.image }))
+    if (!tokenURI) return;
+    const meta = await axios.get(tokenURI);
+    updateFormInput((state) => ({ ...state, image: meta.data.image }));
   }
 
   async function listNFTForSale() {
-    if (!price) return
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
+    if (!price) return;
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
 
-    const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether')
-    let contract = new ethers.Contract(DeployedAddress, abi, signer)
-    let listingPrice = await contract.getListingPrice()
+    const priceFormatted = ethers.utils.parseUnits(formInput.price, "ether");
+    let contract = new ethers.Contract(DeployedAddress, abi, signer);
+    let listingPrice = await contract.getListingPrice();
 
-    listingPrice = listingPrice.toString()
-    let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
-    await transaction.wait()
-   
-    router('/')
+    listingPrice = listingPrice.toString();
+    let transaction = await contract.resellToken(id, priceFormatted, {
+      value: listingPrice,
+    });
+    await transaction.wait();
+
+    // router('/')
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/2 flex flex-col pb-12">
+    <div>
+      <div>
+      <br></br>
         <input
           placeholder="Asset Price in Eth"
-          className="mt-2 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+          onChange={(e) =>
+            updateFormInput({ ...formInput, price: e.target.value })
+          }
         />
-        {
-          image && (
-            <img className="rounded mt-4" width="350" alt='' src={image} />
-          )
-        }
-        <button onClick={listNFTForSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-          List NFT
-        </button>
+        <br></br>
+        <br></br>
+        
+      
+        {image && <img width="350" alt="" src={image} />}
+        <br></br>
+        <br></br>
+        
+
+        
+
+        <Button size='lg' variant='primary' onClick={listNFTForSale}> List NFT </Button>
       </div>
     </div>
-  )
+  );
 }

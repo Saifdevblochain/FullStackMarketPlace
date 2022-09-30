@@ -70,11 +70,7 @@ export default function CreatorDashboard() {
               {/* <Image src={nft.image} className="img-thumbnail" alt="" /> */}
               <Card.Img variant="top" src={nft.image} style={{ height: '18rem' }} />
               <Card.Body>
-
-
-
                 <Card.Text> {nft.price} ETH</Card.Text>
-
 
               </Card.Body>
 
@@ -85,3 +81,5 @@ export default function CreatorDashboard() {
     </Row>
   )
 }
+
+ 
